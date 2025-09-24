@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mood Bubble</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Mood Bubble</h1>
+    <label class="lbl">Message</label>
+    <textarea id="msg" rows="4" placeholder="Type a message... e.g., 'Where were you???'"></textarea>
+
+    <label class="lbl">Relationship</label>
+    <select id="rel">
+      <option value="intimate">Intimate</option>
+      <option value="friend" selected>Friend</option>
+      <option value="coworker">Coworker</option>
+      <option value="formal">Formal</option>
+    </select>
+
+    <div class="row">
+      <button id="analyze">Analyze</button>
+      <button id="insert">Insert into page</button>
+    </div>
+
+    <div id="result">
+      <div id="preview" class="bubble">Your live preview will appear here.</div>
+      <div id="meta"></div>
+    </div>
+
+    <p class="foot">
+      This is a super-light demo. It runs locally in the extension popup.
+    </p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

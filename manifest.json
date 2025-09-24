@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Mood Bubble Demo",
+  "version": "0.1.0",
+  "description": "A minimal tone-to-color demo: type text, pick relationship, see a colored/animated preview. Optional insert into active input.",
+  "action": {
+    "default_title": "Mood Bubble",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
