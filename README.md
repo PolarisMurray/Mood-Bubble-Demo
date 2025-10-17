@@ -1,36 +1,47 @@
-# Mood-Bubble-Demo
-A tiny, testable plugin that turns text into a **tone** with a **color/animation bubble**.
-It also lets you insert a tagged plain-text version (e.g., `[HAPPY] your text`) into the active input on any page.
+# 🌈 PBJ: Local AI Mood Bubble  
 
-## Features
-- Popup with message box + relationship selector
-- Heuristic tone engine (happy/angry/uncertain/calm)
-- Animated preview bubble (pulse/flash/ripple/gradient)
-- Insert tagged text into focused input on a page
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg?logo=python)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-green.svg?logo=fastapi)](https://fastapi.tiangolo.com/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-ML-orange.svg?logo=pytorch)](https://pytorch.org/)
+[![Chrome Extension](https://img.shields.io/badge/Chrome_Extension-MV3-yellow.svg?logo=googlechrome)](https://developer.chrome.com/docs/extensions/)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
-> Privacy: runs locally in the popup — no network calls.
+[English](#english-version) | [中文](#中文版本) | [日本語](#日本語バージョン) | [한국어](#한국어-버전)
 
-## Install (Chrome, Edge)
-1. Download and unzip this folder.
-2. Open `chrome://extensions` → enable **Developer mode** (top right).
-3. Click **Load unpacked** → select the folder.
-4. Pin the extension and open it.
+---
 
-## Quick Test
-Try messages like:
-- `Let's go!! this is awesome` → happy
-- `WHERE WERE YOU???` → uncertain/angry (caps + questions)
-- `Not sure about this... maybe later` → uncertain
-- `On my way.` → calm
+## English Version
+A privacy-first Chrome extension that analyzes emotional tone of selected text using a **local PyTorch model** served through **FastAPI**.  
+It visualizes tone as a **color / animation bubble**, and allows users to insert tagged text (e.g., `[HAPPY] your text`) into any active input field.
 
-Switch **Relationship** to see the seriousness bias.
+---
 
-## Insert into input
-- Click **Insert into page`, then paste is attempted into the currently-focused input or contentEditable.
-  (This is a minimal demo; many sites work, some may block or need extra integration.)
+### 🚀 Features
+- **Popup interface** with live message preview  
+- **Dual-mode tone analysis**
+  - *Heuristic mode*: keyword / emoji / punctuation analysis  
+  - *AI mode*: PyTorch classifier (via FastAPI)
+- **Animated color bubbles** reflecting tone  
+- **Local inference only** — all computations stay on your device  
+- **Text injection** into web inputs (`[HAPPY] your text`)  
 
-## Files
-- `manifest.json` — MV3 manifest
-- `popup.html` / `popup.js` / `styles.css` — UI and tiny rules engine
-- `content.js` — tries to insert text into the focused field
-- `sw.js` — placeholder service worker
+---
+
+### 🧠 Architecture Overview
+
+#### 1️⃣ Chrome Extension Frontend  
+- Collects user-selected text or input  
+- Runs heuristic tone scoring in JavaScript  
+- Optionally calls the local API (`127.0.0.1:8000/predict`)  
+- Displays the tone bubble & inserts tagged text  
+
+#### 2️⃣ FastAPI + PyTorch Backend  
+- `api.py`: defines `/predict` endpoint  
+- `ml.py`: defines and trains a small neural classifier  
+  ```python
+  class ToneModel(nn.Module):
+      def __init__(self, in_dim, out_dim=4):
+          super().__init__()
+          self.linear = nn.Linear(in_dim, out_dim)
+      def forward(self, x):
+          return self.linear(x)
