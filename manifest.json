@@ -10,18 +10,15 @@
   "permissions": [
     "activeTab",
     "scripting"
+    "storage"
   ],
   "background": {
     "service_worker": "sw.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ]
