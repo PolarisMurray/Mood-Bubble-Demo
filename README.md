@@ -49,3 +49,64 @@ class ToneModel(nn.Module):
         self.linear = nn.Linear(in_dim, out_dim)
     def forward(self, x):
         return self.linear(x)
+
+
+#### 3️⃣ Model Logic
+Input text is converted to vector form using Hashed Bag-of-Words (BoW).
+Each token → numeric index (hashed), accumulated counts → normalized tensor.
+Model performs linear mapping and softmax classification:
+
+
+
+#### 🔄 Data Flow
+User selects text
+  ↓
+popup.js → FastAPI (/predict)
+  ↓
+PyTorch model inference (BoW → Linear → Softmax)
+  ↓
+Tone classification result (JSON)
+  ↓
+Displayed as animated bubble in popup
+
+#### 🧮 Example Predictions
+Input	Predicted Tone	Confidence
+“Let's go!! This is awesome lol”	happy	0.94
+“WHERE WERE YOU??”	angry	0.78
+“Maybe later, not sure”	uncertain	0.83
+“On my way.”	calm	0.67
+
+#### 💡 Why It Works
+FastAPI bridges the web UI with the local ML model 🌉
+PyTorch handles tone classification with linear softmax layers 💡
+Chrome APIs enable webpage-level interactivity 🌐
+Local-only execution → zero data leakage 🛡️
+
+#### ⚙️ Run Locally
+Create and activate a virtual environment:
+python -m venv .venv
+source .venv/bin/activate
+Install dependencies:
+pip install -r requirements.txt
+Run the API server:
+python api.py
+Visit the interactive docs:
+http://127.0.0.1:8000/docs
+
+
+#### 📂 Project Structure
+pbj/
+├── api.py           # FastAPI server
+├── ml.py            # PyTorch model + encoding
+├── models/          # Trained weights
+├── popup.html       # UI layout
+├── popup.js         # Tone logic
+├── styles.css       # Bubble animations
+├── content.js       # Webpage text injector
+├── manifest.json    # Chrome extension manifest
+└── requirements.txt
+
+#### 👤 Author
+Murray Chen
+Olin College of Engineering · Class of 2029
+Focus: AI Systems · GPU Computing · Human-AI Interaction
